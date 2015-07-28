@@ -76,12 +76,16 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private JPanel panelCambiarCarpeta(){
-		JPanel panel = new JPanel(new FlowLayout());
+		JPanel panel = new JPanel(new BorderLayout());
+		JPanel panelCarpeta = new JPanel(new FlowLayout());
 		btnElegirCarpeta = new JButton("Elejir carpeta");
 		btnElegirCarpeta.addActionListener(this);
 		rutaCarpetaXml.setPreferredSize(new Dimension(300, 30));
-		panel.add(rutaCarpetaXml);
-		panel.add(btnElegirCarpeta);
+		panelCarpeta.add(rutaCarpetaXml);
+		panelCarpeta.add(btnElegirCarpeta);
+		panel.add(BorderLayout.NORTH, panelCarpeta);
+		datosFactura = new JLabel("prueba");
+		panel.add(BorderLayout.CENTER, datosFactura);
 		return panel;
 	}
 	
