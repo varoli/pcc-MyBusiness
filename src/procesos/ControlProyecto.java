@@ -1,19 +1,19 @@
 package procesos;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.io.File;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
-import gui.GUI;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
+import org.w3c.dom.*;
+import gui.*;
 
 public class ControlProyecto extends GUI{
 	private HerramientaArchivo herramientaArchivo;
-	private Dato[] datos;
+	private Dato datoXml;
+	
+	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
 	public ControlProyecto(){
 		super();
@@ -34,27 +34,71 @@ public class ControlProyecto extends GUI{
 		if(rutaCarpeta != null){
 			setRutaCarpetaXml(rutaCarpeta);
 			mostrarArchivosXmlDisponible();
+			actualizarTablaArticulos(null);
+			hacerEnabledBtnProcesar(false);
+			setArchivoActual("Para activar el boton procesar, elija un archivo xml de la parte derecha");
 			herramientaArchivo.escribirArchivoTexto("foldSel.data", rutaCarpeta);
 			herramientaArchivo.crearCarpeta(getRutaCarpetaXml() + "\\procesados\\");
 		}
 	}
 	
 	public void eventoBotonProcesar(){
-		//herramientaArchivo.moverArchivo("c:\\prueba\\pruebaEsto.xml", "c:\\prueba\\procesados\\pruebaEsto.xml");
-		System.out.println("boton procesar");
+		ManejadorBd mnBd = new ManejadorBd();
+		int indexColumnaFinal = getTablaArticulos().getColumnCount() - 1;
+		TableModel contenidoTablaArticulo = getTablaArticulos().getModel();
+		quitarArchivoDeLista(getListaArchivosXml().getSelectedIndex());
+		for(int i=0; i<getTablaArticulos().getRowCount(); i++){
+			if(Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
+				mnBd.actualizarBd(datoXml);
+		}
+		herramientaArchivo.moverArchivo(getRutaCarpetaXml() + getListaArchivosXml().getSelectedValue().toString(), 
+				getRutaCarpetaXml() + "procesados\\" + getListaArchivosXml().getSelectedValue().toString());
+		hacerEnabledListaArchivosXml(false);
+		actualizarTablaArticulos(null);
+		mostrarArchivosXmlDisponible();
+	}
+
+	private void actualizarContenidoGUI(String nombreArchivoXml){
+		String labelDatosFactura = "hola";
+		setArchivoActual(getRutaCarpetaXml() + nombreArchivoXml);
+		hacerEnabledBtnProcesar(true);
+		setDatosFactura(labelDatosFactura);
+		actualizarTablaArticulos(datoXml.getArticulos());
 	}
 	
 	public void eventoJListArchivoXml(String nombreArchivoXml){
 		ManejadorXml mnXml = new ManejadorXml();
+		datoXml = null;
+		datoXml = new Dato();
 		Document datosXml = mnXml.leerXML(new File(getRutaCarpetaXml() + nombreArchivoXml));
-		actualizarTablaArticulos(mnXml.colectarDatosXml(datosXml, 7));
+		datoXml.setNombreEmisorFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Emisor", "nombre"));
+		datoXml.setRfcEmisorFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Emisor", "rfc"));
+		datoXml.setFolioFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "folio"));
+		datoXml.setFechaFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "fecha"));
+		datoXml.setFolioFiscal(mnXml.obtenerValorAtributo(datosXml, "tfd:TimbreFiscalDigital", "UUID"));
+		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 7));
+		actualizarContenidoGUI(nombreArchivoXml);
 	}
+	
+	private void acercaDe(){
+		String cadena = "Javier Burón Gutiérrez\nLizeth Vásquez Rojas";
+		JOptionPane.showMessageDialog(null, cadena);
+	}
+	
+	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(getBtnElegirCarpeta()))
 			eventoBotonElegirCarpeta();
 		else if(arg0.getSource().equals(getBtnProcesar()))
 			eventoBotonProcesar();
+		else if(arg0.getSource().equals(getSalirMenuItem()))
+			System.exit(0);
+		else if(arg0.getSource().equals(getGuiaRapidaMenuItem()))
+			System.out.println("Guia Rápida");
+		else if(arg0.getSource().equals(getAboutMenuItem()))
+			acercaDe();
 	}
 
 	public void valueChanged(ListSelectionEvent e) {

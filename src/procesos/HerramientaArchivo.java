@@ -1,9 +1,8 @@
 package procesos;
 
 import java.io.*;
-import java.util.ArrayList;
-
-import javax.swing.JFileChooser;
+import java.util.*;
+import javax.swing.*;
 
 public class HerramientaArchivo {
 	public void crearCarpeta(String nuevaCarpeta){
@@ -40,24 +39,24 @@ public class HerramientaArchivo {
 	}
 	
 	public String[] obtenerNombresArchivosXml(String rutaCarpeta){
-		ArrayList<String> nombresXML = null;
 		File f = new File(rutaCarpeta);
-		String[] archivosXml=null;
 		if(f.exists()){ //Comprobando que la carpeta especificada, exista o sea accecible
-			nombresXML = new ArrayList<String>();
 			File[] archivos = f.listFiles();
-			for(int i=0; i<archivos.length; i++){
-				String fileXML = archivos[i].getName();
-				if(validarExtencionXML(fileXML)){
-					nombresXML.add(fileXML); //Almacenando los nombres de los xml
+			if(archivos.length > 0){
+				ArrayList<String> nombresXML = new ArrayList<String>();
+				for(int i=0; i<archivos.length; i++){
+					String fileXML = archivos[i].getName();
+					if(validarExtencionXML(fileXML)){
+						nombresXML.add(fileXML); //Almacenando los nombres de los xml
+					}
 				}
+				String[] archivosXml = new String[nombresXML.size()];
+				nombresXML.toArray(archivosXml);
+				return archivosXml;
 			}
-		} else {
-			System.out.println("La carpeta espesificada no existe");
 		}
-		archivosXml = new String[nombresXML.size()];
-		nombresXML.toArray(archivosXml);
-		return archivosXml;
+		System.out.println("La carpeta espesificada no existe");
+		return null;
 	}
 	
 	/**

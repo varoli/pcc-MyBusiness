@@ -14,9 +14,31 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	private JList listaArchivosXml;
 	private JButton btnElegirCarpeta;
 	private JButton btnProcesar;
+	private JMenuBar menuBarr;
+	private JMenu menuArchivo, menuAyuda;
+	private JMenuItem salirMenuItem, guiaRapidaMenuItem, aboutMenuItem;
 	
-	public void setArchivoActual(JLabel archivoActual) {
-		this.archivoActual = archivoActual;
+	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
+	
+	public JMenuItem getSalirMenuItem() {
+		return salirMenuItem;
+	}
+
+	public JMenuItem getGuiaRapidaMenuItem() {
+		return guiaRapidaMenuItem;
+	}
+
+	public JMenuItem getAboutMenuItem() {
+		return aboutMenuItem;
+	}
+
+	public void setArchivoActual(String archivoActual) {
+		this.archivoActual.setText(archivoActual);
+	}
+	
+	public JTable getTablaArticulos() {
+		return tablaArticulos;
 	}
 	
 	public JButton getBtnProcesar() {
@@ -35,10 +57,6 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		this.rutaCarpetaXml.setText(rutaCarpetaXml);
 	}
 
-	public String getDatosFactura() {
-		return datosFactura.getText();
-	}
-
 	public void setDatosFactura(String datosFactura) {
 		this.datosFactura.setText(datosFactura);
 	}
@@ -47,18 +65,50 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		return this.listaArchivosXml;
 	}
 	
-	public void hacerEnabledListaArchivosXml(boolean enabled){
-		listaArchivosXml.setEnabled(enabled);
-	}
-
+	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
+	
 	public GUI(){	
+		barraMenu();
 		add(BorderLayout.NORTH, panelCambiarCarpeta());
 		rutaCarpetaXml.setEditable(false);
-		String[] listaXml = {""};
-		crearListaScroll(listaXml);
+		crearListaScroll(null);
 		crearTablaArticulos(null);
 		add(BorderLayout.SOUTH, panelSur());
 		inicializarVentana();
+	}
+	
+	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
+	
+	public void hacerEnabledListaArchivosXml(boolean enabled){
+		listaArchivosXml.setEnabled(enabled);
+	}
+	
+	public void hacerEnabledBtnProcesar(boolean enabled){
+		btnProcesar.setEnabled(enabled);
+	}
+	
+	private void barraMenu(){
+		menuBarr = new JMenuBar();
+		menuArchivo = new JMenu("Archivo");
+		menuAyuda = new JMenu("Ayuda");
+		salirMenuItem = new JMenuItem("Salir");
+		guiaRapidaMenuItem = new JMenuItem("Guia rápida");
+		aboutMenuItem = new JMenuItem("Acerca de");
+		
+		salirMenuItem.addActionListener(this);
+		guiaRapidaMenuItem.addActionListener(this);
+		aboutMenuItem.addActionListener(this);
+		
+		menuArchivo.add(salirMenuItem);
+		menuAyuda.add(guiaRapidaMenuItem);
+		menuAyuda.add(aboutMenuItem);
+		
+		menuBarr.add(menuArchivo);
+		menuBarr.add(menuAyuda);
+		
+		setJMenuBar(menuBarr);
 	}
 	
 	private JPanel panelCambiarCarpeta(){
@@ -87,15 +137,20 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private void crearListaScroll(String[] listaXml){
+		if(listaXml == null)
+			listaXml = new String[1];
+		
 		listaArchivosXml = null;
 		listaArchivosXml = new JList(listaXml);
 		listaArchivosXml.addListSelectionListener(this);
-		if(listaXml[0] == ""){
+		
+		if(listaXml == null){
 			listaArchivosXml.setPreferredSize(new Dimension(getPreferredSize().width / 4, getPreferredSize().height));
 			listaArchivosXml.setEnabled(false);
-		}else{
+		} else {
 			listaArchivosXml.setEnabled(true);
 		}
+		
 		add(BorderLayout.EAST, new JScrollPane(listaArchivosXml));
 	}
 	
@@ -125,6 +180,10 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		remove(listaArchivosXml.getParent().getParent());
 		crearListaScroll(listaXml);
 		revalidate();
+	}
+	
+	public void quitarArchivoDeLista(int index) {
+		//listaArchivosXml.remove(0);
 	}
 	
 	private void inicializarVentana(){

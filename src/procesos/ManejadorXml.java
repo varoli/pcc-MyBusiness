@@ -30,6 +30,20 @@ public class ManejadorXml {
 		return documento;
 	}
 	
+	/** Obtiene el valor del atributo especificado, este atributo pertenece a una etiqueta especificada. <b>Se recomienda utilizar
+	 * este código solo para obtener los datos de la factura</b> <i>PARA OBTENER LOS ARTICULOS DE LA FACTURA, UTILIZAR EL MÉTODO
+	 * "colectarDatosXml(...)</i>".
+	 * @param documento El documento con toda la información del archivo xml
+	 * @param etiqueta La etiqueta a usar para obtener el atributo deseado
+	 * @param atributo El atributo que se desea obtener, de la etiqueta especificada
+	 * @return El contenido del atributo que pertenece a la etiqueta especificada en los correspondientes parametros del método
+	 */
+	public String obtenerValorAtributo(Document documento, String etiqueta, String atributo){
+		NodeList tag = documento.getElementsByTagName(etiqueta);
+		NamedNodeMap atributos = tag.item(0).getAttributes();
+		return atributos.getNamedItem(atributo).getTextContent();
+	}
+	
 	public Object[][] colectarDatosXml(Document documento, int numAtributos){
 		NodeList concepto = documento.getElementsByTagName("cfdi:Concepto");
 		Object[][] datos = new Object[concepto.getLength()][numAtributos];
