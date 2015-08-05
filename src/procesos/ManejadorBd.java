@@ -80,7 +80,7 @@ public class ManejadorBd {
 		String articulo = "N'" + rowArticulo[0].toString() + "'";
 		String descripcion = "N'" + rowArticulo[1].toString() + "'";
 		String unidad = "N'" + rowArticulo[2].toString() + "'";
-		String impuesto = "N'IVA'"; //IVA
+		String impuesto = "N'IVA'"; //"N'" + rowArticulo[3].toString() + "'"; //IVA
 		float cantidad = Integer.parseInt(rowArticulo[3].toString());
 		float precio = Float.parseFloat(rowArticulo[4].toString()); //PRECIO1
 		float importe = Float.parseFloat(rowArticulo[5].toString()); //COSTO_U
@@ -88,18 +88,17 @@ public class ManejadorBd {
 		boolean existenciaAlmacen = investigarArticulo(rowArticulo[0].toString(), "existenciaalmacen"); //rowArticulo[0].toString() --> articulo
 		boolean prods = investigarArticulo(rowArticulo[0].toString(), "prods"); //rowArticulo[0].toString() --> articulo
 		if(existenciaAlmacen && prods){
-			sqlExistenciaAlmacen = "";
-			sqlProds = "";
+			sqlExistenciaAlmacen = "UPDATE FROM existenciaalmacen SET existencia=" + cantidad + " WHERE articulo=" + articulo;
 		} else if(existenciaAlmacen && !prods){
-			sqlExistenciaAlmacen = "";
-			sqlProds = "";
+			sqlExistenciaAlmacen = "UPDATE FROM existenciaalmacen SET existencia=" + cantidad + " WHERE articulo=" + articulo;
+			sqlProds = "INSERT INTO prods(ARTICULO, DESCRIP, PRECIO1, COSTO_U, UNIDAD, IMPUESTO) VALUES(" 
+					+ articulo + ", " + descripcion + ", " + precio + ", " + importe + ", " + unidad + ", " + impuesto + ")";
 		} else if(!existenciaAlmacen && prods){
-			sqlExistenciaAlmacen = "";
-			sqlProds = "";
+			sqlExistenciaAlmacen = "INSERT INTO existenciaalmacen VALUES(" + almacen + ", " + articulo + ", " + cantidad + ")";
 		} else {
 			sqlExistenciaAlmacen = "INSERT INTO existenciaalmacen VALUES(" + almacen + ", " + articulo + ", " + cantidad + ")";
 			sqlProds = "INSERT INTO prods(ARTICULO, DESCRIP, PRECIO1, COSTO_U, UNIDAD, IMPUESTO) VALUES(" 
-					+ articulo + ", " + descripcion + ", " + precio + ", " + importe + ", " + unidad + impuesto + ")";
+					+ articulo + ", " + descripcion + ", " + precio + ", " + importe + ", " + unidad + ", " + impuesto + ")";
 		}
 		consultarBD(sqlExistenciaAlmacen);
 		consultarBD(sqlProds);
@@ -151,7 +150,7 @@ public class ManejadorBd {
 	 * @param articulo Nombre del articulo que será actualizada su existencia en la tabla "prods"
 	 */
 	private void actualizarExistenciaProd(String articulo){
-		String sql = "UPDATE prods SET prods.EXISTENCIA= (SELECT SUM(existenciaalmacen.existencia) FROM existenciaalmacen WHERE articulo= N'" + articulo + "') WHERE prods.ARTICULO= N'" + articulo + "'";
+		String sql = "UPDATE prods SET prods.EXISTENCIA= (SELECT SUM(existenciaalmacen.existencia) FROM existenciaalmacen WHERE articulo= " + articulo + ") WHERE prods.ARTICULO= " + articulo;
 		consultarBD(sql);
 	}
 }

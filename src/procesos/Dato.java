@@ -12,6 +12,7 @@ public class Dato {
 	private Object[][] articulos;
 	private String fechaFactura;
 	private String folioFiscal;
+	private String impuesto;
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
@@ -51,5 +52,11 @@ public class Dato {
 	}
 	public void setFolioFiscal(String folioFiscal) {
 		this.folioFiscal = folioFiscal;
+	}
+	public String getImpuesto() {
+		return impuesto;
+	}
+	public void setImpuesto(String impuesto) {
+		this.impuesto = impuesto;
 	}
 }
