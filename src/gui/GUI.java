@@ -120,7 +120,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		panelCarpeta.add(rutaCarpetaXml);
 		panelCarpeta.add(btnElegirCarpeta);
 		panel.add(BorderLayout.NORTH, panelCarpeta);
-		datosFactura = new JLabel("prueba");
+		datosFactura = new JLabel("prueba", JLabel.CENTER);
 		panel.add(BorderLayout.CENTER, datosFactura);
 		return panel;
 	}
@@ -187,6 +187,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private void inicializarVentana(){
+		setTitle("STOCKTAKING HELP - V 1.0");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
