@@ -45,12 +45,15 @@ public class ControlProyecto extends GUI{
 	public void eventoBotonProcesar(){
 		ManejadorBd mnBd = new ManejadorBd();
 		int indexColumnaFinal = getTablaArticulos().getColumnCount() - 1;
+		Object[][] datoXML= datoXml.getArticulos();
 		TableModel contenidoTablaArticulo = getTablaArticulos().getModel();
 		quitarArchivoDeLista(getListaArchivosXml().getSelectedIndex());
 		for(int i=0; i<getTablaArticulos().getRowCount(); i++){
 			if(Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
-				mnBd.actualizarBd(datoXml);
+				datoXML[i][indexColumnaFinal] = contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString();
 		}
+		datoXml.setArticulos(datoXML);
+		mnBd.actualizarBd(datoXml);
 		herramientaArchivo.moverArchivo(getRutaCarpetaXml() + getListaArchivosXml().getSelectedValue().toString(), 
 				getRutaCarpetaXml() + "procesados\\" + getListaArchivosXml().getSelectedValue().toString());
 		hacerEnabledListaArchivosXml(false);
