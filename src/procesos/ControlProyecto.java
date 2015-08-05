@@ -62,7 +62,11 @@ public class ControlProyecto extends GUI{
 	}
 
 	private void actualizarContenidoGUI(String nombreArchivoXml){
-		String labelDatosFactura = "hola";
+		String labelDatosFactura = "<html><head><style>table{margin:10px;} td{font-size:9px; padding:3px; text-align:center;} .brd-right{border-right:3px solid #7a8a99;}</style></head><body><table>"
+				+ "<tr align='center'><td colspan='3'> EMISOR: " + datoXml.getNombreEmisorFactura() + "</td></tr>"
+				+ "<tr><td class='brd-right'> RFC: "+ datoXml.getRfcEmisorFactura() +"</td><td class='brd-right'> FOLIO FISCAL: " + datoXml.getFolioFiscal() + "</td><td> FOLIO FACTURA: " + datoXml.getFolioFactura() + " </td></tr>"
+				+ "<tr><td colspan='3'> FECHA: " + datoXml.getFechaFactura() + "</td></tr>"
+				+ "</table></body></html>";
 		setArchivoActual(getRutaCarpetaXml() + nombreArchivoXml);
 		hacerEnabledBtnProcesar(true);
 		setDatosFactura(labelDatosFactura);
@@ -84,8 +88,9 @@ public class ControlProyecto extends GUI{
 	}
 	
 	private void acercaDe(){
-		String cadena = "Javier Burón Gutiérrez\nLizeth Vásquez Rojas";
-		JOptionPane.showMessageDialog(null, cadena);
+		//String cadena = "Javier Burón Gutiérrez\nLizeth Vásquez Rojas";
+		String cadena = "Desarrollado por:   Estancias profesionales 2015 \n        Lic. Javier Burón Gutiérrez\n        Lic. Lizeth Vásquez Rojas \n\n Dirigido por:    PCC\n       Ing. Ricardo Martinez Velazquez\n\n Versión 1.0";
+		JOptionPane.showMessageDialog(null, cadena, "STOCKTAKING HELP", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
