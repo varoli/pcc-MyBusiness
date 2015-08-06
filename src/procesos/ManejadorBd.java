@@ -1,10 +1,11 @@
 package procesos;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+/**
+ * Encargada de llevar la comunicación con la base de datos.
+ * @author Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+ * 		<br> Lizeth Vásquez Rojas (liz_02277@hotmail.com)
+ */
 
 public class ManejadorBd {
 	private Dato datoXml;
@@ -24,6 +25,7 @@ public class ManejadorBd {
 			con = DriverManager.getConnection(connectionUrl);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
 			System.exit(-1);
 		}
 	}
@@ -46,10 +48,11 @@ public class ManejadorBd {
 	public void actualizarBd(Dato datoXml) {
 		this.datoXml = datoXml;
 		int ultimaColumnaAtributos = datoXml.getArticulos()[0].length - 1;
+		conectarBd();
 		for(int i=0; i<datoXml.getArticulos().length; i++)
-			for(int j=0; j<datoXml.getArticulos().length; j++)
-				if(Boolean.parseBoolean(datoXml.getArticulos()[i][ultimaColumnaAtributos].toString()))
-					procesarArticulo(datoXml.getArticulos()[i]);
+			if(Boolean.parseBoolean(datoXml.getArticulos()[i][ultimaColumnaAtributos].toString()))
+				procesarArticulo(datoXml.getArticulos()[i]);
+		cerrarConexion();
 	}
 	
 	/**
@@ -74,16 +77,15 @@ public class ManejadorBd {
 	 * @param rowArticulo Contenido del articulo
 	 */
 	private void procesarArticulo(Object[] rowArticulo){
-		conectarBd();
 		String sqlExistenciaAlmacen = "";
 		String sqlProds = "";
 		String articulo = "N'" + rowArticulo[0].toString() + "'";
 		String descripcion = "N'" + rowArticulo[1].toString() + "'";
 		String unidad = "N'" + rowArticulo[2].toString() + "'";
-		String impuesto = "N'IVA'"; //"N'" + rowArticulo[3].toString() + "'"; //IVA
-		float cantidad = Integer.parseInt(rowArticulo[3].toString());
-		float precio = Float.parseFloat(rowArticulo[4].toString()); //PRECIO1
-		float importe = Float.parseFloat(rowArticulo[5].toString()); //COSTO_U
+		String impuesto = "N'" + rowArticulo[3].toString() + "'"; //IVA
+		float cantidad = Integer.parseInt(rowArticulo[4].toString());
+		float precio = Float.parseFloat(rowArticulo[5].toString()); //PRECIO1
+		float importe = Float.parseFloat(rowArticulo[6].toString()); //COSTO_U
 		int almacen = 9; //ALMACEN en tabla existenciaalmacen
 		boolean existenciaAlmacen = investigarArticulo(rowArticulo[0].toString(), "existenciaalmacen"); //rowArticulo[0].toString() --> articulo
 		boolean prods = investigarArticulo(rowArticulo[0].toString(), "prods"); //rowArticulo[0].toString() --> articulo
@@ -104,9 +106,14 @@ public class ManejadorBd {
 		consultarBD(sqlProds);
 		
 		actualizarExistenciaProd(articulo); //buscar una mejor posición para esta linea de código
-		cerrarConexion();
 	}
 	
+	/**
+	 * Investiga si existe o no el articulo dentro de la tabla.
+	 * @param articulo Cadena de identificación del articulo.
+	 * @param tabla Nombre de la tabla en la bd, la que será alterada.
+	 * @return True si el articulo existe en la tabla, False si el articulo no existe en la tabla.
+	 */
 	private boolean investigarArticulo(String articulo, String tabla){
 		try {
 			ResultSet rs = consultarBD("SELECT count(articulo) FROM " + tabla + " WHERE articulo=N'" + articulo + "'"); //pienso falta en wehere un and almacen
@@ -144,7 +151,6 @@ public class ManejadorBd {
 		consultarBD(sqlExistenciaAlmacen);
 	}
 	
-	//Actualizar el campo existencia de la tabla prods
 	/**
 	 * Actualiza el campo existencia de un articulo en la tabla "prods"
 	 * @param articulo Nombre del articulo que será actualizada su existencia en la tabla "prods"

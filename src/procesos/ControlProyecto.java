@@ -29,7 +29,7 @@ public class ControlProyecto extends GUI{
 		actualizarListaArchivosXml(herramientaArchivo.obtenerNombresArchivosXml(getRutaCarpetaXml()));	
 	}
 	
-	public void eventoBotonElegirCarpeta(){
+	private void eventoBotonElegirCarpeta(){
 		String rutaCarpeta = herramientaArchivo.elegirRutaCarpetaXml(getRutaCarpetaXml());
 		if(rutaCarpeta != null){
 			setRutaCarpetaXml(rutaCarpeta);
@@ -42,14 +42,14 @@ public class ControlProyecto extends GUI{
 		}
 	}
 	
-	public void eventoBotonProcesar(){
+	private void eventoBotonProcesar(){
 		ManejadorBd mnBd = new ManejadorBd();
 		int indexColumnaFinal = getTablaArticulos().getColumnCount() - 1;
 		Object[][] datoXML= datoXml.getArticulos();
 		TableModel contenidoTablaArticulo = getTablaArticulos().getModel();
 		quitarArchivoDeLista(getListaArchivosXml().getSelectedIndex());
 		for(int i=0; i<getTablaArticulos().getRowCount(); i++){
-			if(Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
+			if(!Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
 				datoXML[i][indexColumnaFinal] = contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString();
 		}
 		datoXml.setArticulos(datoXML);
@@ -73,7 +73,7 @@ public class ControlProyecto extends GUI{
 		actualizarTablaArticulos(datoXml.getArticulos());
 	}
 	
-	public void eventoJListArchivoXml(String nombreArchivoXml){
+	private void eventoJListArchivoXml(String nombreArchivoXml){
 		ManejadorXml mnXml = new ManejadorXml();
 		datoXml = null;
 		datoXml = new Dato();
@@ -83,7 +83,7 @@ public class ControlProyecto extends GUI{
 		datoXml.setFolioFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "folio"));
 		datoXml.setFechaFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "fecha"));
 		datoXml.setFolioFiscal(mnXml.obtenerValorAtributo(datosXml, "tfd:TimbreFiscalDigital", "UUID"));
-		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 7));
+		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 8)); //Arreglo de articulos
 		actualizarContenidoGUI(nombreArchivoXml);
 	}
 	

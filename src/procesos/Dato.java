@@ -1,7 +1,7 @@
 package procesos;
 
 /**
- * Contiene solo los atributos más representativos a utilizar del xml, cada atributo cuenta con su respectivo método set & get.
+ * Contiene solo los atributos más representativos a utilizar del xml, cada variable cuenta con su respectivo método set & get.
  * @author Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
  * 		<br> Lizeth Vásquez Rojas (liz_02277@hotmail.com)
  */

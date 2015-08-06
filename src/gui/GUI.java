@@ -81,11 +81,11 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
-	public void hacerEnabledListaArchivosXml(boolean enabled){
+	protected void hacerEnabledListaArchivosXml(boolean enabled){
 		listaArchivosXml.setEnabled(enabled);
 	}
 	
-	public void hacerEnabledBtnProcesar(boolean enabled){
+	protected void hacerEnabledBtnProcesar(boolean enabled){
 		btnProcesar.setEnabled(enabled);
 	}
 	
@@ -155,7 +155,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private void crearTablaArticulos(Object[][] articulos){
-		String[] TitulosColumnas = {"Artículo","Descripción","Unidad","Cantidad","Precio","Importe", "Elegir"};
+		String[] TitulosColumnas = {"Artículo","Descripción","Unidad","impuesto","Cantidad","Precio","Importe", "Elegir"};
 		DefaultTableModel dtm= new DefaultTableModel(articulos, TitulosColumnas);
 		tablaArticulos = null;
 		tablaArticulos = new JTable(dtm){
@@ -170,19 +170,19 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		add(BorderLayout.CENTER, new JScrollPane(tablaArticulos));
 	}
 	
-	public void actualizarTablaArticulos(Object[][] articulos){
+	protected void actualizarTablaArticulos(Object[][] articulos){
 		remove(tablaArticulos.getParent().getParent());
 		crearTablaArticulos(articulos);
 		revalidate();
 	}
 	
-	public void actualizarListaArchivosXml(String[] listaXml){
+	protected void actualizarListaArchivosXml(String[] listaXml){
 		remove(listaArchivosXml.getParent().getParent());
 		crearListaScroll(listaXml);
 		revalidate();
 	}
 	
-	public void quitarArchivoDeLista(int index) {
+	protected void quitarArchivoDeLista(int index) {
 		//listaArchivosXml.remove(0);
 	}
 	

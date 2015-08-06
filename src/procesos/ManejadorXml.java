@@ -52,10 +52,11 @@ public class ManejadorXml {
 			datos[i][0] = comprobante.getNamedItem("noIdentificacion").getTextContent();
 			datos[i][1] = comprobante.getNamedItem("descripcion").getTextContent();
 			datos[i][2] = comprobante.getNamedItem("unidad").getTextContent();
-			datos[i][3] = comprobante.getNamedItem("cantidad").getTextContent();
-			datos[i][4] = comprobante.getNamedItem("valorUnitario").getTextContent();
-			datos[i][5] = comprobante.getNamedItem("importe").getTextContent();
-			datos[i][6] = new Boolean(true);
+			datos[i][3] = "IVA";//comprobante.getNamedItem("impuesto").getTextContent();
+			datos[i][4] = comprobante.getNamedItem("cantidad").getTextContent();
+			datos[i][5] = comprobante.getNamedItem("valorUnitario").getTextContent();
+			datos[i][6] = comprobante.getNamedItem("importe").getTextContent();
+			datos[i][7] = new Boolean(true);
 		}
 		return datos;
 	}
