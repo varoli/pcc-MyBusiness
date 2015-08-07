@@ -47,7 +47,6 @@ public class ControlProyecto extends GUI{
 		int indexColumnaFinal = getTablaArticulos().getColumnCount() - 1;
 		Object[][] datoXML= datoXml.getArticulos();
 		TableModel contenidoTablaArticulo = getTablaArticulos().getModel();
-		quitarArchivoDeLista(getListaArchivosXml().getSelectedIndex());
 		for(int i=0; i<getTablaArticulos().getRowCount(); i++){
 			if(!Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
 				datoXML[i][indexColumnaFinal] = contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString();
@@ -59,6 +58,7 @@ public class ControlProyecto extends GUI{
 		hacerEnabledListaArchivosXml(false);
 		actualizarTablaArticulos(null);
 		mostrarArchivosXmlDisponible();
+		setDatosFactura("Factura procesada");
 	}
 
 	private void actualizarContenidoGUI(String nombreArchivoXml){

@@ -182,10 +182,6 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		revalidate();
 	}
 	
-	protected void quitarArchivoDeLista(int index) {
-		//listaArchivosXml.remove(0);
-	}
-	
 	private void inicializarVentana(){
 		setTitle("STOCKTAKING HELP - V 1.0");
 		setSize(800, 600);

@@ -83,7 +83,7 @@ public class ManejadorBd {
 		String descripcion = "N'" + rowArticulo[1].toString() + "'";
 		String unidad = "N'" + rowArticulo[2].toString() + "'";
 		String impuesto = "N'" + rowArticulo[3].toString() + "'"; //IVA
-		float cantidad = Integer.parseInt(rowArticulo[4].toString());
+		float cantidad = Float.parseFloat(rowArticulo[4].toString());
 		float precio = Float.parseFloat(rowArticulo[5].toString()); //PRECIO1
 		float importe = Float.parseFloat(rowArticulo[6].toString()); //COSTO_U
 		int almacen = 9; //ALMACEN en tabla existenciaalmacen
