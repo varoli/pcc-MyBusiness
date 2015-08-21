@@ -1,13 +1,14 @@
 package procesos;
 
 import java.io.File;
-
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.*;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-
+/**
+ * Contiene métodos necesarios para el manejo del contenido del archivo XML
+ * @author Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
+ * 		<br> Lizeth Vásquez Rojas (liz_02277@hotmail.com)
+ */
 public class ManejadorXml {
 	
 	/**
@@ -44,19 +45,24 @@ public class ManejadorXml {
 		return atributos.getNamedItem(atributo).getTextContent();
 	}
 	
+	/** Recolecta los articulos que serán mostrados en la GUI del apartado tabla de articulos
+	 * @param documento Contenido del archivo xml
+	 * @param numAtributos Número de columnas que tiene la tabla de artículos en la clase GUI
+	 * @return Lista de productos a mostrar en la tabla de artículos en la clase GUI
+	 */
 	public Object[][] colectarDatosXml(Document documento, int numAtributos){
 		NodeList concepto = documento.getElementsByTagName("cfdi:Concepto");
 		Object[][] datos = new Object[concepto.getLength()][numAtributos];
 		for(int i=0; i<concepto.getLength(); i++){
 			NamedNodeMap comprobante = concepto.item(i).getAttributes();
-			datos[i][0] = comprobante.getNamedItem("noIdentificacion").getTextContent();
-			datos[i][1] = comprobante.getNamedItem("descripcion").getTextContent();
-			datos[i][2] = comprobante.getNamedItem("unidad").getTextContent();
+			datos[i][0] = comprobante.getNamedItem("noIdentificacion").getTextContent().trim();
+			datos[i][1] = comprobante.getNamedItem("descripcion").getTextContent().trim();
+			datos[i][2] = comprobante.getNamedItem("unidad").getTextContent().trim();
 			datos[i][3] = "IVA";//comprobante.getNamedItem("impuesto").getTextContent();
-			datos[i][4] = comprobante.getNamedItem("cantidad").getTextContent();
-			datos[i][5] = comprobante.getNamedItem("valorUnitario").getTextContent();
-			datos[i][6] = comprobante.getNamedItem("importe").getTextContent();
-			datos[i][7] = new Boolean(true);
+			datos[i][4] = comprobante.getNamedItem("cantidad").getTextContent().trim();
+			datos[i][5] = comprobante.getNamedItem("valorUnitario").getTextContent().trim();
+			datos[i][6] = comprobante.getNamedItem("importe").getTextContent().trim();
+			datos[i][7] = new Boolean(true); //valor para la columna elegir, columna en la tabla de artículos en la clase GUI
 		}
 		return datos;
 	}

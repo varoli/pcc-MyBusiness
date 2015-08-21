@@ -16,24 +16,23 @@ public class ManejadorBd {
 	
 	/**
 	 * Crea una conexión a la base de datos
+	 * @return 
 	 */
-	private void conectarBd(){
+	public boolean conectarBd(String connectionUrl){
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String connectionUrl = "jdbc:sqlserver://127.0.0.1\\SQLEXPRESS;" +
-					"databaseName=C:\\MyBusinessDatabase\\MyBusinessPOS2012.mdf;integratedSecurity=true";
 			con = DriverManager.getConnection(connectionUrl);
+			return true;
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
-			e.printStackTrace();
-			System.exit(-1);
 		}
+		return false;
 	}
 	
 	/**
 	 * Cierra la conexión a la base de datos
 	 */
-	private void cerrarConexion(){
+	public void cerrarConexion(){
 		try {
 			con.close();
 		} catch (SQLException e) {
@@ -48,11 +47,9 @@ public class ManejadorBd {
 	public void actualizarBd(Dato datoXml) {
 		this.datoXml = datoXml;
 		int ultimaColumnaAtributos = datoXml.getArticulos()[0].length - 1;
-		conectarBd();
 		for(int i=0; i<datoXml.getArticulos().length; i++)
 			if(Boolean.parseBoolean(datoXml.getArticulos()[i][ultimaColumnaAtributos].toString()))
 				procesarArticulo(datoXml.getArticulos()[i]);
-		cerrarConexion();
 	}
 	
 	/**
@@ -90,9 +87,9 @@ public class ManejadorBd {
 		boolean existenciaAlmacen = investigarArticulo(rowArticulo[0].toString(), "existenciaalmacen"); //rowArticulo[0].toString() --> articulo
 		boolean prods = investigarArticulo(rowArticulo[0].toString(), "prods"); //rowArticulo[0].toString() --> articulo
 		if(existenciaAlmacen && prods){
-			sqlExistenciaAlmacen = "UPDATE FROM existenciaalmacen SET existencia=" + cantidad + " WHERE articulo=" + articulo;
+			sqlExistenciaAlmacen = "UPDATE existenciaalmacen SET existencia=(SELECT existencia FROM existenciaalmacen WHERE (almacen= " + almacen + ") AND (articulo=" + articulo + ")) + 1 WHERE (almacen=" + almacen + ") AND (articulo=" + articulo + ")";
 		} else if(existenciaAlmacen && !prods){
-			sqlExistenciaAlmacen = "UPDATE FROM existenciaalmacen SET existencia=" + cantidad + " WHERE articulo=" + articulo;
+			sqlExistenciaAlmacen = "UPDATE existenciaalmacen SET existencia=(SELECT existencia FROM existenciaalmacen WHERE (almacen= " + almacen + ") AND (articulo=" + articulo + ")) + 1 WHERE (almacen=" + almacen + ") AND (articulo=" + articulo + ")";
 			sqlProds = "INSERT INTO prods(ARTICULO, DESCRIP, PRECIO1, COSTO_U, UNIDAD, IMPUESTO) VALUES(" 
 					+ articulo + ", " + descripcion + ", " + precio + ", " + importe + ", " + unidad + ", " + impuesto + ")";
 		} else if(!existenciaAlmacen && prods){
