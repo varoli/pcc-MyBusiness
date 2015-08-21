@@ -15,8 +15,8 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	private JButton btnElegirCarpeta;
 	private JButton btnProcesar;
 	private JMenuBar menuBarr;
-	private JMenu menuArchivo, menuAyuda;
-	private JMenuItem salirMenuItem, guiaRapidaMenuItem, aboutMenuItem;
+	private JMenu menuArchivo, menuVer, menuAyuda;
+	private JMenuItem salirMenuItem, archProcesados, guiaRapidaMenuItem, aboutMenuItem;
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
@@ -92,20 +92,25 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	private void barraMenu(){
 		menuBarr = new JMenuBar();
 		menuArchivo = new JMenu("Archivo");
+		menuVer = new JMenu("Ver");
 		menuAyuda = new JMenu("Ayuda");
 		salirMenuItem = new JMenuItem("Salir");
+		archProcesados = new JMenuItem("Archivos procesados");
 		guiaRapidaMenuItem = new JMenuItem("Guia rápida");
 		aboutMenuItem = new JMenuItem("Acerca de");
 		
 		salirMenuItem.addActionListener(this);
+		archProcesados.addActionListener(this);
 		guiaRapidaMenuItem.addActionListener(this);
 		aboutMenuItem.addActionListener(this);
 		
 		menuArchivo.add(salirMenuItem);
+		menuVer.add(archProcesados);
 		menuAyuda.add(guiaRapidaMenuItem);
 		menuAyuda.add(aboutMenuItem);
 		
 		menuBarr.add(menuArchivo);
+		menuBarr.add(menuVer);
 		menuBarr.add(menuAyuda);
 		
 		setJMenuBar(menuBarr);
