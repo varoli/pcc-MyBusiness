@@ -1,0 +1,1 @@
+jdbc:sqlserver://127.0.0.1\SQLEXPRESS;databaseName=C:\MyBusinessDatabase\MyBusinessPOS2012.mdf;integratedSecurity=true

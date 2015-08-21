@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener{
+public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener{
 	private JTextField rutaCarpetaXml = new JTextField();
 	private JLabel datosFactura = new JLabel();
 	private JLabel archivoActual;
@@ -143,6 +143,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		listaArchivosXml = null;
 		listaArchivosXml = new JList(listaXml);
 		listaArchivosXml.addListSelectionListener(this);
+		listaArchivosXml.setToolTipText("Lista de facturas xml");
 		
 		if(listaXml == null){
 			listaArchivosXml.setPreferredSize(new Dimension(getPreferredSize().width / 4, getPreferredSize().height));
@@ -166,6 +167,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
                 return String.class;
             }
 		};
+		tablaArticulos.setToolTipText("Tabla con los articulos de la factura");
 		tablaArticulos.setPreferredScrollableViewportSize(tablaArticulos.getPreferredSize());
 		add(BorderLayout.CENTER, new JScrollPane(tablaArticulos));
 	}
@@ -182,15 +184,12 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		revalidate();
 	}
 	
-	protected void quitarArchivoDeLista(int index) {
-		//listaArchivosXml.remove(0);
-	}
-	
 	private void inicializarVentana(){
 		setTitle("STOCKTAKING HELP - V 1.0");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(this);
 		setVisible(true);
 	}
 }
