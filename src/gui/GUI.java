@@ -16,7 +16,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	private JButton btnProcesar;
 	private JMenuBar menuBarr;
 	private JMenu menuArchivo, menuVer, menuAyuda;
-	private JMenuItem salirMenuItem, archProcesados, guiaRapidaMenuItem, aboutMenuItem;
+	private JMenuItem salirMenuItem, archProcesadosMenuItem, guiaRapidaMenuItem, aboutMenuItem;
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
@@ -24,7 +24,11 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	public JMenuItem getSalirMenuItem() {
 		return salirMenuItem;
 	}
-
+	
+	public JMenuItem getArchProcesadosMenuItem() {
+		return archProcesadosMenuItem;
+	}
+	
 	public JMenuItem getGuiaRapidaMenuItem() {
 		return guiaRapidaMenuItem;
 	}
@@ -95,17 +99,17 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		menuVer = new JMenu("Ver");
 		menuAyuda = new JMenu("Ayuda");
 		salirMenuItem = new JMenuItem("Salir");
-		archProcesados = new JMenuItem("Archivos procesados");
+		archProcesadosMenuItem = new JMenuItem("Archivos procesados");
 		guiaRapidaMenuItem = new JMenuItem("Guia rápida");
 		aboutMenuItem = new JMenuItem("Acerca de");
 		
 		salirMenuItem.addActionListener(this);
-		archProcesados.addActionListener(this);
+		archProcesadosMenuItem.addActionListener(this);
 		guiaRapidaMenuItem.addActionListener(this);
 		aboutMenuItem.addActionListener(this);
 		
 		menuArchivo.add(salirMenuItem);
-		menuVer.add(archProcesados);
+		menuVer.add(archProcesadosMenuItem);
 		menuAyuda.add(guiaRapidaMenuItem);
 		menuAyuda.add(aboutMenuItem);
 		

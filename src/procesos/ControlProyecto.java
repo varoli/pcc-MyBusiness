@@ -99,6 +99,16 @@ public class ControlProyecto extends GUI{
 				+ "</table></body></html>";
 	}
 	
+	private void verArchivosProcesados() {
+		Runtime r= Runtime.getRuntime();
+		Process p= null;
+		try{
+			p= r.exec("explorer.exe " + getRutaCarpetaXml() + "procesados");
+		}catch (Exception e) {
+			System.out.println("Error al intentar ver la carpeta con los archivos procesados, consulte al técnico");
+		}
+	}
+	
 	private void acercaDe(){
 		//String cadena = "Javier Burón Gutiérrez\nLizeth Vásquez Rojas";
 		String cadena = "Desarrollado por:   Estancias profesionales 2015 \n        Lic. Javier Burón Gutiérrez\n        Lic. Lizeth Vásquez Rojas \n\n Dirigido por:    PCC\n       Ing. Ricardo Martínez Velázquez\n\n Versión 1.0";
@@ -116,6 +126,8 @@ public class ControlProyecto extends GUI{
 			eventoBotonProcesar();
 		else if(arg0.getSource().equals(getSalirMenuItem()))
 			System.exit(0);
+		else if(arg0.getSource().equals(getArchProcesadosMenuItem()))
+			verArchivosProcesados();
 		else if(arg0.getSource().equals(getGuiaRapidaMenuItem()))
 			System.out.println("Guia Rápida");
 		else if(arg0.getSource().equals(getAboutMenuItem()))
