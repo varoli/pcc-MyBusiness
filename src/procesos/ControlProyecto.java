@@ -43,6 +43,7 @@ public class ControlProyecto extends GUI{
 			mostrarArchivosXmlDisponible();
 			actualizarTablaArticulos(null);
 			hacerEnabledBtnProcesar(false);
+			hacerEnabledBtnEditar(false);
 			setArchivoActual("Para activar el boton procesar, elija un archivo xml de la parte derecha");
 			herramientaArchivo.escribirArchivoTexto("foldSel.data", rutaCarpeta);
 			herramientaArchivo.crearCarpeta(getRutaCarpetaXml() + "procesados\\");
@@ -73,6 +74,7 @@ public class ControlProyecto extends GUI{
 	private void actualizarContenidoGUI(String nombreArchivoXml){
 		setArchivoActual(getRutaCarpetaXml() + nombreArchivoXml);
 		hacerEnabledBtnProcesar(true);
+		hacerEnabledBtnEditar(false);
 		setDatosFactura(datosFactura(datoXml.getNombreEmisorFactura(), datoXml.getRfcEmisorFactura(), datoXml.getFolioFiscal(), datoXml.getFolioFactura(), datoXml.getFechaFactura()));
 		actualizarTablaArticulos(datoXml.getArticulos());
 	}
@@ -87,8 +89,13 @@ public class ControlProyecto extends GUI{
 		datoXml.setFolioFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "folio"));
 		datoXml.setFechaFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "fecha"));
 		datoXml.setFolioFiscal(mnXml.obtenerValorAtributo(datosXml, "tfd:TimbreFiscalDigital", "UUID"));
-		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 8)); //Arreglo de articulos
+		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 9)); //Arreglo de articulos
 		actualizarContenidoGUI(nombreArchivoXml);
+	}
+	
+	private void eventoClickJtable(){
+		hacerEnabledBtnEditar(true);
+		System.out.println(getTablaArticulos().getSelectedRow());
 	}
 	
 	private String datosFactura(String nombreEmisorFactura, String rfcEmisorFactura, String folioFiscal, String folioFactura, String fechaFactura){
@@ -164,4 +171,22 @@ public class ControlProyecto extends GUI{
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
+
+	/* Eventos del ratón para la tabla */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		eventoClickJtable();
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }

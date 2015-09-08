@@ -6,14 +6,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener{
+public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener, MouseListener{
 	private JTextField rutaCarpetaXml = new JTextField();
 	private JLabel datosFactura = new JLabel();
 	private JLabel archivoActual;
 	private JTable tablaArticulos;
 	private JList listaArchivosXml;
 	private JButton btnElegirCarpeta;
-	private JButton btnProcesar;
+	private JButton btnProcesar, btnEditar;
 	private JMenuBar menuBarr;
 	private JMenu menuArchivo, menuVer, menuAyuda;
 	private JMenuItem salirMenuItem, archProcesadosMenuItem, guiaRapidaMenuItem, aboutMenuItem;
@@ -47,6 +47,10 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	
 	public JButton getBtnProcesar() {
 		return btnProcesar;
+	}
+	
+	public JButton getBtnEditar() {
+		return btnEditar;
 	}
 
 	public JButton getBtnElegirCarpeta() {
@@ -93,6 +97,10 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		btnProcesar.setEnabled(enabled);
 	}
 	
+	protected void hacerEnabledBtnEditar(boolean enabled){
+		btnEditar.setEnabled(enabled);
+	}
+	
 	private void barraMenu(){
 		menuBarr = new JMenuBar();
 		menuArchivo = new JMenu("Archivo");
@@ -136,12 +144,18 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	
 	private JPanel panelSur(){
 		JPanel panel = new JPanel(new BorderLayout());
+		JPanel panelBtns = new JPanel(new FlowLayout());
 		btnProcesar = new JButton("Procesar");
 		btnProcesar.addActionListener(this);
 		btnProcesar.setEnabled(false);
+		btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(this);
+		btnEditar.setEnabled(false);
 		archivoActual = new JLabel("Para activar el boton procesar, elija un archivo xml de la parte derecha");
+		panelBtns.add(btnEditar);
+		panelBtns.add(btnProcesar);
 		panel.add(BorderLayout.CENTER, archivoActual);
-		panel.add(BorderLayout.EAST, btnProcesar);
+		panel.add(BorderLayout.EAST, panelBtns);
 		return panel;
 	}
 	
@@ -165,7 +179,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private void crearTablaArticulos(Object[][] articulos){
-		String[] TitulosColumnas = {"Artículo","Descripción","Unidad","impuesto","Cantidad","Precio","Importe", "Elegir"};
+		String[] TitulosColumnas = {"Artículo","Descripción","Unidad","impuesto","Cantidad","Precio","Importe", "Utilidad", "Elegir"};
 		DefaultTableModel dtm= new DefaultTableModel(articulos, TitulosColumnas);
 		tablaArticulos = null;
 		tablaArticulos = new JTable(dtm){
@@ -177,7 +191,9 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
             }
 		};
 		tablaArticulos.setToolTipText("Tabla con los articulos de la factura");
+		tablaArticulos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaArticulos.setPreferredScrollableViewportSize(tablaArticulos.getPreferredSize());
+		tablaArticulos.addMouseListener(this);
 		add(BorderLayout.CENTER, new JScrollPane(tablaArticulos));
 	}
 	

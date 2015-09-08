@@ -1,6 +1,8 @@
 package procesos;
 
 import java.io.File;
+
+import javax.swing.JButton;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
 
@@ -62,7 +64,8 @@ public class ManejadorXml {
 			datos[i][4] = comprobante.getNamedItem("cantidad").getTextContent().trim();
 			datos[i][5] = comprobante.getNamedItem("valorUnitario").getTextContent().trim();
 			datos[i][6] = comprobante.getNamedItem("importe").getTextContent().trim();
-			datos[i][7] = new Boolean(true); //valor para la columna elegir, columna en la tabla de artículos en la clase GUI
+			datos[i][7] = "33%";
+			datos[i][8] = new Boolean(true); //valor para la columna elegir, columna en la tabla de artículos en la clase GUI
 		}
 		return datos;
 	}
