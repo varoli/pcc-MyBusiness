@@ -11,19 +11,20 @@ public class Ejecutar {
 
 	public static void main(String[] args) {
 		JDialog dialogoEspera = new JDialog();
-		JPanel panelImaneg = new JPanel();
-		panelImaneg.setBackground(new Color(0, 0, 0, 0));
+		JPanel panelImagen = new JPanel();
+		panelImagen.setBackground(new Color(0, 0, 0, 0));
 		JPanel panelTexto = new JPanel();
-		panelImaneg.add(new JLabel(new ImageIcon(dialogoEspera.getClass().getResource("/img/loading.gif")), JLabel.CENTER));
+		panelImagen.add(new JLabel(new ImageIcon(dialogoEspera.getClass().getResource("/img/loading.gif")), JLabel.CENTER));
 		panelTexto.add(new JLabel("Cargando programa ... Porfavor espere ...", JLabel.CENTER));
-		dialogoEspera.add(BorderLayout.CENTER, panelImaneg);
+		dialogoEspera.add(BorderLayout.NORTH, new JLabel(new ImageIcon(dialogoEspera.getClass().getResource("/img/logo-pcc.jpg"))));
+		dialogoEspera.add(BorderLayout.CENTER, panelImagen);
 		dialogoEspera.add(BorderLayout.SOUTH, panelTexto);
-		dialogoEspera.setSize(300, 100);
+		dialogoEspera.setSize(300, 200);
 		dialogoEspera.setLocationRelativeTo(null);
 		dialogoEspera.setUndecorated(true);
 		dialogoEspera.getRootPane().setOpaque(false);
-		dialogoEspera.getContentPane().setBackground(new Color(0, 0, 0, 0));
-		dialogoEspera.setBackground(new Color(0, 0, 0, 0));
+		dialogoEspera.getContentPane().setBackground(new Color(255, 255, 255));
+		dialogoEspera.setBackground(new Color(255, 255, 255));
 		dialogoEspera.setVisible(true);
 		ManejadorBd manejadorBD = new ManejadorBd();
 		HerramientaArchivo herramientaArchivo = new HerramientaArchivo();

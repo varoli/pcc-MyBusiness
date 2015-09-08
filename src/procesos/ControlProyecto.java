@@ -1,5 +1,7 @@
 package procesos;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
@@ -117,9 +119,14 @@ public class ControlProyecto extends GUI{
 	}
 	
 	private void acercaDe(){
-		//String cadena = "Javier Burón Gutiérrez\nLizeth Vásquez Rojas";
 		String cadena = "Desarrollado por:   Estancias profesionales 2015 \n        Lic. Javier Burón Gutiérrez\n        Lic. Lizeth Vásquez Rojas \n\n Dirigido por:    PCC\n       Ing. Ricardo Martínez Velázquez\n\n Versión 1.0";
-		JOptionPane.showMessageDialog(null, cadena, "STOCKTAKING HELP", JOptionPane.INFORMATION_MESSAGE);
+		UIManager ui= new UIManager();
+		ui.put("OptionPane.background", Color.white);
+		ui.put("Panel.background", Color.white);
+		ImageIcon icon= new ImageIcon(getClass().getResource("..\\img\\logo-pcc.jpg"));
+		Image img= icon.getImage();
+		icon= new ImageIcon(img.getScaledInstance(200, 150, java.awt.Image.SCALE_SMOOTH));
+		JOptionPane.showMessageDialog(null, cadena, "STOCKTAKING HELP", JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
