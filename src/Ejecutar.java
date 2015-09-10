@@ -29,9 +29,15 @@ public class Ejecutar {
 		ManejadorBd manejadorBD = new ManejadorBd();
 		HerramientaArchivo herramientaArchivo = new HerramientaArchivo();
 		if(manejadorBD.conectarBd(herramientaArchivo.leerArchivoTexto("cBD.data"))){
+			String fileRelacionAttrxml= herramientaArchivo.leerArchivoTexto("relacionAtributos.data").trim();
+			String[] rowRelacionAttrXml= fileRelacionAttrxml.split(";");
+			String[][] relacionAtributosXml= new String[rowRelacionAttrXml.length][];
+			for(int i=0; i<rowRelacionAttrXml.length; i++){
+				relacionAtributosXml[i]= rowRelacionAttrXml[i].split("=");
+			}
 			dialogoEspera.dispose();
 			dialogoEspera = null;
-			new ControlProyecto(manejadorBD, herramientaArchivo);
+			new ControlProyecto(manejadorBD, herramientaArchivo, relacionAtributosXml);
 		}else{
 			JOptionPane.showMessageDialog(null, "No fue posible entrar al sistema, contacte al técnico", "Problema", JOptionPane.WARNING_MESSAGE);
 			System.exit(-1);

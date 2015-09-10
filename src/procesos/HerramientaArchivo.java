@@ -99,9 +99,13 @@ public class HerramientaArchivo {
 	 */
 	public String leerArchivoTexto(String archivo){
 		String contenido = "";
+		String linea="";
 		try {
 			BufferedReader b = new BufferedReader(new FileReader(archivo));
-			contenido = b.readLine();
+			
+			while((linea=b.readLine()) != null){
+				contenido+= linea;
+			}
 	        b.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

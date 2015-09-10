@@ -1,8 +1,10 @@
 package procesos;
 
 import java.io.File;
+import java.security.KeyStore.Entry.Attribute;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
 
@@ -52,21 +54,31 @@ public class ManejadorXml {
 	 * @param numAtributos Número de columnas que tiene la tabla de artículos en la clase GUI
 	 * @return Lista de productos a mostrar en la tabla de artículos en la clase GUI
 	 */
-	public Object[][] colectarDatosXml(Document documento, int numAtributos){
-		NodeList concepto = documento.getElementsByTagName("cfdi:Concepto");
-		Object[][] datos = new Object[concepto.getLength()][numAtributos];
-		for(int i=0; i<concepto.getLength(); i++){
-			NamedNodeMap comprobante = concepto.item(i).getAttributes();
-			datos[i][0] = comprobante.getNamedItem("noIdentificacion").getTextContent().trim();
-			datos[i][1] = comprobante.getNamedItem("descripcion").getTextContent().trim();
-			datos[i][2] = comprobante.getNamedItem("unidad").getTextContent().trim();
-			datos[i][3] = "IVA";//comprobante.getNamedItem("impuesto").getTextContent();
-			datos[i][4] = comprobante.getNamedItem("cantidad").getTextContent().trim();
-			datos[i][5] = comprobante.getNamedItem("valorUnitario").getTextContent().trim();
-			datos[i][6] = comprobante.getNamedItem("importe").getTextContent().trim();
-			datos[i][7] = "33%";
-			datos[i][8] = new Boolean(true); //valor para la columna elegir, columna en la tabla de artículos en la clase GUI
+	public Object[][] colectarDatosXml(Document documento, String[][] relacionAtributosXml){
+		try{
+			int numAtributos= relacionAtributosXml.length;
+			String attributo="";
+			NodeList concepto = documento.getElementsByTagName("cfdi:Concepto");
+			Object[][] datos = new Object[concepto.getLength()][numAtributos + 1];
+			for(int i=0; i<concepto.getLength(); i++){
+				NamedNodeMap comprobante = concepto.item(i).getAttributes();
+				for(int j=0; j<numAtributos; j++){
+					attributo= relacionAtributosXml[j][2];
+					if(attributo.indexOf("[") != -1){
+						attributo= attributo.replace("[", "");
+						attributo= attributo.replace("]", "");
+						datos[i][j] = attributo.trim();
+					}else{
+						datos[i][j] = comprobante.getNamedItem(attributo).getTextContent().trim();
+					}
+				}
+				datos[i][numAtributos] = new Boolean(true); //valor para la columna elegir, columna en la tabla de artículos en la clase GUI
+			}
+			return datos;
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Error del sistema, porfavor consulte al técnico. problema con atributos xml: " + e.getMessage());
+			e.printStackTrace();
+			return null;
 		}
-		return datos;
 	}
 }

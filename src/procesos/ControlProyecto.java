@@ -18,8 +18,8 @@ public class ControlProyecto extends GUI{
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
-	public ControlProyecto(ManejadorBd manejadorBD, HerramientaArchivo herramientaArchivo){
-		super();
+	public ControlProyecto(ManejadorBd manejadorBD, HerramientaArchivo herramientaArchivo, String[][] relacionAtributosXml){
+		super(relacionAtributosXml);
 		this.herramientaArchivo = herramientaArchivo;
 		this.manejadorBD = manejadorBD;
 		setRutaCarpetaXml(herramientaArchivo.leerArchivoTexto("foldSel.data"));
@@ -91,7 +91,7 @@ public class ControlProyecto extends GUI{
 		datoXml.setFolioFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "folio"));
 		datoXml.setFechaFactura(mnXml.obtenerValorAtributo(datosXml, "cfdi:Comprobante", "fecha"));
 		datoXml.setFolioFiscal(mnXml.obtenerValorAtributo(datosXml, "tfd:TimbreFiscalDigital", "UUID"));
-		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, 9)); //Arreglo de articulos
+		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, getRelacionAtributosXml())); //Arreglo de articulos
 		actualizarContenidoGUI(nombreArchivoXml);
 	}
 	

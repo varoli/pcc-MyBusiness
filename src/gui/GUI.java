@@ -17,10 +17,15 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	private JMenuBar menuBarr;
 	private JMenu menuArchivo, menuVer, menuAyuda;
 	private JMenuItem salirMenuItem, archProcesadosMenuItem, guiaRapidaMenuItem, aboutMenuItem;
+	private String[][] relacionAtributosXml;
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
+	public String[][] getRelacionAtributosXml() {
+		return relacionAtributosXml;
+	}
+
 	public JMenuItem getSalirMenuItem() {
 		return salirMenuItem;
 	}
@@ -76,7 +81,8 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
 	
-	public GUI(){	
+	public GUI(String[][] relacionAtributosXml){
+		this.relacionAtributosXml=relacionAtributosXml;
 		barraMenu();
 		add(BorderLayout.NORTH, panelCambiarCarpeta());
 		rutaCarpetaXml.setEditable(false);
@@ -179,7 +185,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 	}
 	
 	private void crearTablaArticulos(Object[][] articulos){
-		String[] TitulosColumnas = {"Artículo","Descripción","Unidad","impuesto","Cantidad","Precio","Importe", "Utilidad", "Elegir"};
+		String[] TitulosColumnas= hacertituloTabla();
 		DefaultTableModel dtm= new DefaultTableModel(articulos, TitulosColumnas);
 		tablaArticulos = null;
 		tablaArticulos = new JTable(dtm){
@@ -195,6 +201,17 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		tablaArticulos.setPreferredScrollableViewportSize(tablaArticulos.getPreferredSize());
 		tablaArticulos.addMouseListener(this);
 		add(BorderLayout.CENTER, new JScrollPane(tablaArticulos));
+	}
+	
+	private String[] hacertituloTabla(){
+		int tamaño= relacionAtributosXml.length;
+		String[] titulos= new String[tamaño + 1];
+		for(int i=0; i<tamaño; i++){
+			titulos[i]= relacionAtributosXml[i][1];
+		}
+		titulos[tamaño]= "Elejir";
+		
+		return titulos;
 	}
 	
 	protected void actualizarTablaArticulos(Object[][] articulos){
