@@ -64,19 +64,24 @@ public class ControlProyecto extends GUI{
 				datoXML[i][indexColumnaFinal] = contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString();
 		}
 		datoXml.setArticulos(datoXML);
-		manejadorBD.actualizarBd(datoXml);
+		manejadorBD.actualizarBd(datoXml, getRelacionAtributosXml());
 		herramientaArchivo.moverArchivo(getRutaCarpetaXml() + getListaArchivosXml().getSelectedValue().toString(), 
 				getRutaCarpetaXml() + "procesados\\" + getListaArchivosXml().getSelectedValue().toString());
-		//hacerEnabledListaArchivosXml(false);
+		hacerEnabledBtnEditar(false);
 		actualizarTablaArticulos(null);
 		mostrarArchivosXmlDisponible();
 		setDatosFactura("Factura procesada");
+	}
+	
+	private void eventoBotonEditar(){
+		getTablaArticulos().setEnabled(true);
+		hacerEnabledBtnEditar(false);
 	}
 
 	private void actualizarContenidoGUI(String nombreArchivoXml){
 		setArchivoActual(getRutaCarpetaXml() + nombreArchivoXml);
 		hacerEnabledBtnProcesar(true);
-		hacerEnabledBtnEditar(false);
+		hacerEnabledBtnEditar(true);
 		setDatosFactura(datosFactura(datoXml.getNombreEmisorFactura(), datoXml.getRfcEmisorFactura(), datoXml.getFolioFiscal(), datoXml.getFolioFactura(), datoXml.getFechaFactura()));
 		actualizarTablaArticulos(datoXml.getArticulos());
 	}
@@ -93,11 +98,7 @@ public class ControlProyecto extends GUI{
 		datoXml.setFolioFiscal(mnXml.obtenerValorAtributo(datosXml, "tfd:TimbreFiscalDigital", "UUID"));
 		datoXml.setArticulos(mnXml.colectarDatosXml(datosXml, getRelacionAtributosXml())); //Arreglo de articulos
 		actualizarContenidoGUI(nombreArchivoXml);
-	}
-	
-	private void eventoClickJtable(){
-		hacerEnabledBtnEditar(true);
-		System.out.println(getTablaArticulos().getSelectedRow());
+		getTablaArticulos().setEnabled(false);
 	}
 	
 	private String datosFactura(String nombreEmisorFactura, String rfcEmisorFactura, String folioFiscal, String folioFactura, String fechaFactura){
@@ -138,6 +139,8 @@ public class ControlProyecto extends GUI{
 			eventoBotonElegirCarpeta();
 		else if(arg0.getSource().equals(getBtnProcesar()))
 			eventoBotonProcesar();
+		else if(arg0.getSource().equals(getBtnEditar()))
+			eventoBotonEditar();
 		else if(arg0.getSource().equals(getSalirMenuItem()))
 			System.exit(0);
 		else if(arg0.getSource().equals(getArchProcesadosMenuItem()))
@@ -178,22 +181,4 @@ public class ControlProyecto extends GUI{
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
-
-	/* Eventos del ratón para la tabla */
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		eventoClickJtable();
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
-	@Override
-	public void mousePressed(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {}
 }

@@ -51,7 +51,7 @@ public class ManejadorXml {
 	
 	/** Recolecta los articulos que serán mostrados en la GUI del apartado tabla de articulos
 	 * @param documento Contenido del archivo xml
-	 * @param numAtributos Número de columnas que tiene la tabla de artículos en la clase GUI
+	 * @param relacionAtributosXml Contiene un arreglo de la relacion entre los campos de la tabla, bd y xml
 	 * @return Lista de productos a mostrar en la tabla de artículos en la clase GUI
 	 */
 	public Object[][] colectarDatosXml(Document documento, String[][] relacionAtributosXml){
@@ -63,7 +63,7 @@ public class ManejadorXml {
 			for(int i=0; i<concepto.getLength(); i++){
 				NamedNodeMap comprobante = concepto.item(i).getAttributes();
 				for(int j=0; j<numAtributos; j++){
-					attributo= relacionAtributosXml[j][2];
+					attributo= relacionAtributosXml[j][1];
 					if(attributo.indexOf("[") != -1){
 						attributo= attributo.replace("[", "");
 						attributo= attributo.replace("]", "");

@@ -10,6 +10,7 @@ import java.sql.*;
 public class ManejadorBd {
 	private Dato datoXml;
 	private Connection con;
+	private String[][] relacionAtributosXml;
 	
 	//Javier Burón Gutiérrez (javier_buron_gtz@outlook.com)
 	//Lizeth Vásquez Rojas (liz_02277@hotmail.com)
@@ -43,9 +44,11 @@ public class ManejadorBd {
 	/**
 	 * Este es el método principal que llamarán para guardar los datos XML dentro de la BD
 	 * @param datoXml contenido xml, este contenido es el que se guardará a la BD
+	 * @param relacionAtributosXml Contiene un arreglo de la relacion entre los campos de la tabla, bd y xml
 	 */
-	public void actualizarBd(Dato datoXml) {
+	public void actualizarBd(Dato datoXml, String[][] relacionAtributosXml) {
 		this.datoXml = datoXml;
+		this.relacionAtributosXml= relacionAtributosXml;
 		int ultimaColumnaAtributos = datoXml.getArticulos()[0].length - 1;
 		for(int i=0; i<datoXml.getArticulos().length; i++)
 			if(Boolean.parseBoolean(datoXml.getArticulos()[i][ultimaColumnaAtributos].toString()))

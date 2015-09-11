@@ -1,8 +1,8 @@
-dbd1=Articulo=noIdentificacion;
-dbd2=Descripcion=descripcion;
-dbd3=Unidad=unidad;
-dbd4=Impuesto=[IVA];
-dbd5=Cantidad=cantidad;
-dbd6=Total=valorUnitario;
-dbd7=Importe=importe;
-dbd8=Utilidad=[30];
+Articulo=noIdentificacion;
+Descripcion=descripcion;
+Unidad=unidad;
+Impuesto=[IVA];
+Cantidad=cantidad;
+Total=valorUnitario;
+Importe=importe;
+Utilidad=[30];

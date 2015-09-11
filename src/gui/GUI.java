@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener, MouseListener{
+public abstract class GUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener{
 	private JTextField rutaCarpetaXml = new JTextField();
 	private JLabel datosFactura = new JLabel();
 	private JLabel archivoActual;
@@ -199,7 +199,6 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		tablaArticulos.setToolTipText("Tabla con los articulos de la factura");
 		tablaArticulos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaArticulos.setPreferredScrollableViewportSize(tablaArticulos.getPreferredSize());
-		tablaArticulos.addMouseListener(this);
 		add(BorderLayout.CENTER, new JScrollPane(tablaArticulos));
 	}
 	
@@ -207,7 +206,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		int tamaño= relacionAtributosXml.length;
 		String[] titulos= new String[tamaño + 1];
 		for(int i=0; i<tamaño; i++){
-			titulos[i]= relacionAtributosXml[i][1];
+			titulos[i]= relacionAtributosXml[i][0];
 		}
 		titulos[tamaño]= "Elejir";
 		
