@@ -1,8 +1,9 @@
-Articulo=noIdentificacion;
-Descripcion=descripcion;
-Unidad=unidad;
-Impuesto=[IVA];
-Cantidad=cantidad;
-Total=valorUnitario;
-Importe=importe;
-Utilidad=[30];
+ARTICULO:cadena=Articulo=noIdentificacion;
+DESCRIP:cadena=Descripcion=descripcion;
+UNIDAD:cadena=Unidad=unidad;
+IMPUESTO:cadena=Impuesto=[IVA];
+existencia:float=Cantidad=cantidad;
+almacen:int=Almacen=[1];
+PRECIO1:float=Precio=valorUnitario;
+COSTO_U:float=Importe=importe;
+U1:float=Utilidad=[30];

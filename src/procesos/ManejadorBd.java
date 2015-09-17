@@ -77,7 +77,49 @@ public class ManejadorBd {
 	 * @param rowArticulo Contenido del articulo
 	 */
 	private void procesarArticulo(Object[] rowArticulo){
-		String sqlExistenciaAlmacen = "";
+		String tblProdsColumnName="";
+		String tblProdsColumnVal= "";
+		String tblexistenciaAlmacenColumnName="";
+		String tblExistenciaAlmacenColumnVal= "";
+		String[] datoPreparado;
+		String sqlProds= "";
+		String sqlExistenciaAlmacen= "";
+		
+		for(int i=0; i<relacionAtributosXml.length; i++){
+			datoPreparado= prepararDatoEntradaBd(rowArticulo[i].toString(), relacionAtributosXml[i][0]);
+			switch(datoPreparado[0].toLowerCase()){
+				case "existencia":
+				case "almacen":
+					if(!tblexistenciaAlmacenColumnName.isEmpty()){
+						tblexistenciaAlmacenColumnName+= ", ";
+						tblExistenciaAlmacenColumnVal+= ", ";
+					}
+					tblexistenciaAlmacenColumnName+= datoPreparado[0]; //columna en la tabla a guardar el valor
+					tblExistenciaAlmacenColumnVal+= datoPreparado[1]; //valor a guardar en tabla
+				break;
+				case "articulo":
+					if(!tblexistenciaAlmacenColumnName.isEmpty()){
+						tblexistenciaAlmacenColumnName+= ", ";
+						tblExistenciaAlmacenColumnVal+= ", ";
+					}
+					tblexistenciaAlmacenColumnName+= datoPreparado[0]; //columna en la tabla a guardar el valor
+					tblExistenciaAlmacenColumnVal+= datoPreparado[1]; //valor a guardar en tabla
+				default :
+					if(!tblProdsColumnName.isEmpty()){
+						tblProdsColumnName+= ", ";
+						tblProdsColumnVal+= ", ";
+					}
+					tblProdsColumnName+= datoPreparado[0]; //columna en la tabla a guardar el valor
+					tblProdsColumnVal+= datoPreparado[1]; //valor a guardar en tabla
+			}
+		}
+		
+		sqlProds= "insert into prods(LINEA, MARCA, FABRICANTE, "+ tblProdsColumnName+ ") values(N'SYS', N'SYS', N'SYS', "+ tblProdsColumnVal+ ")";
+		sqlExistenciaAlmacen= "insert into existenciaalmacen("+ tblexistenciaAlmacenColumnName+ ") values("+ tblExistenciaAlmacenColumnVal+ ")";
+		
+		System.out.println(sqlProds);
+		System.out.println(sqlExistenciaAlmacen);
+		/*String sqlExistenciaAlmacen = "";
 		String sqlProds = "";
 		String articulo = "N'" + rowArticulo[0].toString() + "'";
 		String descripcion = "N'" + rowArticulo[1].toString() + "'";
@@ -106,6 +148,23 @@ public class ManejadorBd {
 		consultarBD(sqlProds);
 		
 		actualizarExistenciaProd(articulo); //buscar una mejor posición para esta linea de código
+		*/
+	}
+	
+	/** Prepara dato con N'cadena' para almacenarlo en bd
+	 * @param cellRowArticulo articulo que será preparado con N'cadena', si fuera necesario
+	 * @param valRelacionXml tipo y nombre de la tabla bd 
+	 * @return arreglo con 2 datos. posicion 0=tabla bd y posicion 1=valor a almacenar en bd
+	 */
+	private String[] prepararDatoEntradaBd(String cellRowArticulo, String valRelacionXml){
+		String[] datoPreparado= new String[2];
+		String[] datosValRelacionXml= valRelacionXml.split(":");
+		datoPreparado[0]= datosValRelacionXml[0];
+		if(datosValRelacionXml[1].trim().compareToIgnoreCase("cadena") == 0)
+			datoPreparado[1]= "N'"+ cellRowArticulo+ "'";
+		else
+			datoPreparado[1]= cellRowArticulo;
+		return datoPreparado;
 	}
 	
 	/**

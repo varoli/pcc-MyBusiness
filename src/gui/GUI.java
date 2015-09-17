@@ -206,7 +206,7 @@ public abstract class GUI extends JFrame implements ActionListener, ListSelectio
 		int tamaño= relacionAtributosXml.length;
 		String[] titulos= new String[tamaño + 1];
 		for(int i=0; i<tamaño; i++){
-			titulos[i]= relacionAtributosXml[i][0];
+			titulos[i]= relacionAtributosXml[i][1];
 		}
 		titulos[tamaño]= "Elejir";
 		

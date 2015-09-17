@@ -1,9 +1,12 @@
 package procesos;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -119,6 +122,15 @@ public class ControlProyecto extends GUI{
 		}
 	}
 	
+	private void guiaRapida(){ //Talves este método deberia estar en la clase HerramientaArchivo
+		try{
+			File path= new File("guia-rapida.pdf");
+			Desktop.getDesktop().open(path);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	private void acercaDe(){
 		String cadena = "Desarrollado por:   Estancias profesionales 2015 \n        Lic. Javier Burón Gutiérrez\n        Lic. Lizeth Vásquez Rojas \n\n Dirigido por:    PCC\n       Ing. Ricardo Martínez Velázquez\n\n Versión 1.0";
 		UIManager ui= new UIManager();
@@ -146,7 +158,7 @@ public class ControlProyecto extends GUI{
 		else if(arg0.getSource().equals(getArchProcesadosMenuItem()))
 			verArchivosProcesados();
 		else if(arg0.getSource().equals(getGuiaRapidaMenuItem()))
-			System.out.println("Guia Rápida");
+			guiaRapida();
 		else if(arg0.getSource().equals(getAboutMenuItem()))
 			acercaDe();
 	}

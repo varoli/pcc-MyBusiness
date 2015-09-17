@@ -63,7 +63,7 @@ public class ManejadorXml {
 			for(int i=0; i<concepto.getLength(); i++){
 				NamedNodeMap comprobante = concepto.item(i).getAttributes();
 				for(int j=0; j<numAtributos; j++){
-					attributo= relacionAtributosXml[j][1];
+					attributo= relacionAtributosXml[j][2];
 					if(attributo.indexOf("[") != -1){
 						attributo= attributo.replace("[", "");
 						attributo= attributo.replace("]", "");
