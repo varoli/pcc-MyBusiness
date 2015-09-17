@@ -163,7 +163,7 @@ public class ManejadorBd {
 	 */
 	private boolean investigarArticulo(String articulo, String tabla){
 		try {
-			ResultSet rs = consultarBD("SELECT count(articulo) FROM " + tabla + " WHERE articulo=N'" + articulo + "'"); //pienso falta en wehere un and almacen
+			ResultSet rs = consultarBD("SELECT count(articulo) FROM " + tabla + " WHERE articulo=" + articulo); //pienso falta en wehere un and almacen
 			while (rs.next()){  
 				if(Integer.parseInt(rs.getString(1)) > 0)
 					return true;
