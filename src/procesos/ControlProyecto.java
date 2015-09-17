@@ -57,14 +57,15 @@ public class ControlProyecto extends GUI{
 	}
 	
 	private void eventoBotonProcesar(){
-		int indexColumnaFinal = getTablaArticulos().getColumnCount() - 1;
-		Object[][] datoXML= datoXml.getArticulos();
+		int indexColumnaFinal = getTablaArticulos().getColumnCount();
+		Object[][] datoXML= new Object[getTablaArticulos().getRowCount()][indexColumnaFinal];
 		TableModel contenidoTablaArticulo = getTablaArticulos().getModel();
 		getBtnProcesar().setEnabled(false);
 		setArchivoActual("Para activar el boton procesar, elija un archivo xml de la parte derecha");
 		for(int i=0; i<getTablaArticulos().getRowCount(); i++){
-			if(!Boolean.parseBoolean(contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString()))
-				datoXML[i][indexColumnaFinal] = contenidoTablaArticulo.getValueAt(i, indexColumnaFinal).toString();
+			for(int j=0; j<indexColumnaFinal; j++){
+				datoXML[i][j]= contenidoTablaArticulo.getValueAt(i, j).toString();
+			}
 		}
 		datoXml.setArticulos(datoXML);
 		manejadorBD.actualizarBd(datoXml, getRelacionAtributosXml());
